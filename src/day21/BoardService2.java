@@ -34,24 +34,24 @@ public class BoardService2 {
                         writer[index] = writ;
                         save = true;
                         break;
-                    }
-                }
+                    }// if end
+                }// for end
                 if (!save) {
                     System.out.println(" 비어있는 자리가 없습니다 ");
                 } else {
                     System.out.println(" 게시물 쓰기 성공 ");
                 }
+            }
                 if (choose == 2) {
                     for (int index = 0; index <= content.length - 1; index++) {
                         if (content[index] != null) { // 만약 index번째 게시물이 존재하면
                             System.out.printf("작성자 : %s, 내용 : %s \n", writer[index], content[index]);
-                        }
-                    }
-                }
-            }
+                        } // if end
+                    }// for end
+                }// if end
+            }// while end
 
 
             //
-        }
-    }
-}
+        }// main end
+    }// class end
