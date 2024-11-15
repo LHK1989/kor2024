@@ -3,7 +3,7 @@ package day22;
 import java.util.ArrayList;
 import java.util.Scanner;
 /*[ BoardServiceTest3 ]
-        - BoardServiceTest2 클래스에서 main함수내 while{} 문 안에 있는 게시물 등록코드 와 게시물 전체 출력코드를 main함수 밖으로 빼서 각 함수로 구현 하시오.
+        - BoardServiceTest2 클래스에서 main함수내 while{} 문 안에 있는 게시물 등록코드 와 게시물 전체 출력코드를 main함수 밖으로 빼서 각 함수로 구현 하시오.1
 
  */
 

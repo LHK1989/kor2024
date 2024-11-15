@@ -13,7 +13,7 @@ import java.util.Scanner;
          2. 객체 생성시 무조건 생성자를 사용한다.
          3. getter , setter , toString 함수들을 이용하여 모든 필드의 데이터를 간접 접근한다.
       - 기능 구축 : 게시물 쓰기 와 게시물 출력 기능 구현
-
+1
    [ BoardServiceTest3 ]
    - BoardServiceTest2 클래스에서 main함수내 while{} 문 안에 있는 게시물 등록코드 와 게시물 전체 출력코드를 main함수 밖으로 빼서 각 함수로 구현 하시오.
  */
