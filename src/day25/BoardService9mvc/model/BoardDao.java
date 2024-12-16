@@ -34,7 +34,24 @@ import java.util.ArrayList;
 
 public class BoardDao {
     private static BoardDao boardDao = new BoardDao();
-    private BoardDao(){}
+    private BoardDao(){
+
+        // 만약에 파일을 로드 하는데 .. 파일이 존재하지 않으면
+            // [1] 파일 경로에 따른 파일 객체화
+        File file = new File("./src/day25/boardservice9mvc/test/test.txt");
+            // [ 2] 객체화 한 파일이 존재하는지 확인
+        if(file.exists()){
+            fileLoad();// - 싱글톤이 생성될 때 ( 프로그램이 실행될때 )
+        }else {// - 지정한 경로에 파일이 없다.
+            //파일 생성
+            try {
+                file.createNewFile();   // 지정한 경로에 파일 생성
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+    }
     public static BoardDao getInstance(){
         return boardDao;
     }
@@ -86,25 +103,40 @@ public class BoardDao {
         }
     }
     // ============================= 영구 저장된 파일의 게시물들을 가져오는 기능 ================================
-    public void fileLoad(){
+    public void fileLoad(){  // 프로그램이 실행되었을때 1번
         try {
             // [1] 파일 입력 객체 생성
             FileInputStream inputStream = new FileInputStream("./src/day25/boardservice9mvc/test/test.txt");
             // [2] 파일 용량만큼 바이트 배열 선언
             File file = new File("./src/day25/boardservice9mvc/test/test.txt");
-            byte[] bytes = new byte[(int)file.length()];
-            //[3] 파일 입력 객체를 이용한 파일 읽어서 바이트 배열 저장
+            byte[] bytes = new byte[ (int) file.length()];
+            // [3] 파일 입력 객체를 이용한 파일 읽어서 바이트 배열 저장
             inputStream.read(bytes);
-            // [4] 읽어온 바이트 배열을 문자열로 변환
+            // [4] 읽어온 바이트 배열을 문자열(String)으로 변환
             String inStr = new String( bytes );
-            // 활용 과제 : 파일로 부터 읽어온 문자열의 게시물 정보들을 다시 ArrayList<BoardDto> boardDB에 저장하시오.
-
-            String[] m = inStr.split("\n");
-            for( int i=0; i<=m.length - 1; i++){
-                String[] m2 = m[i].split(",");
-                int num = Integer.valueOf(m2[2]);
-               BoardDto boardDto = new BoardDto(m2[0],m2[1],num);
-               boardDB.add(boardDto);
+            // 활용과제 : 파일로 부터 읽어온 문자열의 게시물 정보들을 다시 ArrayList<BoardDto> boardDB 에 저장하시오.
+            // 목표 : 파일로 가져온 문자열내 저장된 여러개 게시물들을 객체화 하고 게시물객체를 리스트에 담자.
+            // "안녕하세요,유재석,1234\n그래안녕,강호동,4567"
+            // [1] 객체 구분문자(\n:임의)  , 문자열 분해 , "문자열".split("기준문자") : 문자열내 기준문자 기준으로 분해 후 배열로 반환
+            // inStr = "안녕하세요,유재석,1234\n그래안녕,강호동,4567\n"
+            // inStr.split("\n")  -> [ "안녕하세요,유재석,1234" , "그래안녕,강호동,4567" ]
+            String[] objStr = inStr.split("\n");
+            // [2] 객체내 필드 구분 문자(,:쉼표)
+            for( int i = 0 ; i <= objStr.length - 1 ; i++ ){ // 마지막 줄 제외를 하기 위해 -1
+                String obj = objStr[i]; // [3] 1개의 객체 필드 값들 가져오기
+                //  objStr = [ "안녕하세요,유재석,1234" , "그래안녕,강호동,4567" ]
+                //  objStr[0] = "안녕하세요,유재석,1234"
+                //  objStr[0].split(",")   -->   [  "안녕하세요" , "유재석" , "1234" ]
+                //  field = [  "안녕하세요" , "유재석" , "1234" ]
+                //  field[0] = "안녕하세요"
+                //  [4] 문자열로 된 필드 값들을 객체로 변환하기
+                String[] field = obj.split(",");
+                String content = field[0];
+                String writer = field[1];
+                int pwd = Integer.parseInt( field[2] ) ; // String 타입을 int 으로 변환하는 방법 , Integer.parseInt("문자열")
+                BoardDto boardDto = new BoardDto( content , writer , pwd );
+                // [5] 리스트에 담기
+                boardDB.add( boardDto );
             }
 
         }catch (FileNotFoundException e){
